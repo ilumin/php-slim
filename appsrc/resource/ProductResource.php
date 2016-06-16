@@ -40,4 +40,29 @@ class ProductResource
             throw new \Exception('Insert product fail with (' . $e->getMessage() . ')');
         }
     }
+
+    public function update($id, $data)
+    {
+        $this->doctrine->getConnection()->beginTransaction();
+
+        try {
+            $productRepository = $this->doctrine->getRepository('App\Entity\Product');
+            $product = $productRepository->findOneBy([
+                'id' => $id,
+            ]);
+            if (!$product) {
+                throw new \Exception('Product not exist');
+            }
+            $product->name = $data['name'];
+            $product->price = $data['price'];
+            $this->doctrine->persist($product);
+            $this->doctrine->flush();
+            $this->doctrine->getConnection()->commit();
+            return $product;
+        }
+        catch (\Exception $e) {
+            $this->doctrine->getConnection()->rollBack();
+            throw new \Exception('Update product fail with (' . $e->getMessage() . ')');
+        }
+    }
 }
