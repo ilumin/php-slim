@@ -1,7 +1,8 @@
 {
     "name": "root/app",
     "require": {
-        "slim/slim": "^3.4"
+        "slim/slim": "^3.4",
+        "doctrine/orm": "^2.5"
     },
     "autoload": {
         "psr-4": {
