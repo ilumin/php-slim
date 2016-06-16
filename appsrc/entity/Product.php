@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,10 +44,22 @@ class Product
      */
     protected $category;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="products")
+     * @ORM\JoinTable(
+     *     name="product_tags",
+     *     joinColumns={ @ORM\JoinColumn(name="product_id", referencedColumnName="id") },
+     *     inverseJoinColumns={ @ORM\JoinColumn(name="tag_id", referencedColumnName="id") }
+     * )
+     * @var Collection|Tag[]
+     */
+    protected $tags;
+
     public function __construct($data)
     {
         $this->name = $data['name'];
         $this->price = $data['price'];
         $this->createdAt = isset($data['createdAt']) ? $data['createdAt'] : new \Datetime();
+        $this->tags = new Doctrine\Common\Collections\ArrayCollection();
     }
 }
