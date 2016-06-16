@@ -1,4 +1,6 @@
 {
     "name": "root/app",
-    "require": {}
+    "require": {
+        "slim/slim": "^3.4"
+    }
 }
