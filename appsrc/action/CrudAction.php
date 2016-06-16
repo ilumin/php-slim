@@ -24,6 +24,16 @@ class CrudAction
         return $response->withJson($data);
     }
 
+    public function get(Request $request, Response $response, $args)
+    {
+        $result = $this->productResource->get($args['id']);
+        $data = [
+            "status" => "success",
+            "data" => $result,
+        ];
+        return $response->withJson($data);
+    }
+
     public function hello(Request $request, Response $response, $args)
     {
         $data = [
