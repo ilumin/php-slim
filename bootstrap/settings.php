@@ -11,4 +11,22 @@ return [
     'settings' => [
         'displayErrorDetails' => true,
     ],
+
+    'doctrine' => [
+        'meta' => [
+            'entityPath' => [
+                APP . '/entity',
+            ],
+            'auto_generate_proxies' => true,
+            'proxy_dir' => CACHE . '/proxies',
+            'cache' => null,
+        ],
+        'connection' => [
+            'driver'     => 'pdo_mysql',
+            'host'       => 'app-database-service',
+            'dbname'     => 'app',
+            'user'       => 'app',
+            'password'   => 'app',
+        ],
+    ],
 ];
