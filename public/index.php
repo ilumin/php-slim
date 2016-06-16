@@ -1,14 +1,16 @@
 <?php
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
 
-require __DIR__ . '/../vendor/autoload.php';
+define('PROJECT_ROOT', __DIR__ . '/..');
+define('VENDOR', PROJECT_ROOT . '/vendor');
+define('BOOTSTRAP', PROJECT_ROOT . '/bootstrap');
+define('APP', PROJECT_ROOT . '/appsrc');
 
-$app = new \Slim\App;
-$app->get('/hello/{name}', function (Request $request, Response $response) {
-    $name = $request->getAttribute('name');
-    $response->getBody()->write("SAWADDEE JA, $name");
+require VENDOR . '/autoload.php';
 
-    return $response;
-});
+$settings = require BOOTSTRAP . '/settings.php';
+$app = new \Slim\App($settings);
+
+require BOOTSTRAP . '/dependencies.php';
+require BOOTSTRAP . '/routes.php';
+
 $app->run();
