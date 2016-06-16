@@ -17,4 +17,12 @@ class ProductResource
         $products = $productRepository->findAll();
         return $products;
     }
+    public function get($id)
+    {
+        $productRepository = $this->doctrine->getRepository('App\Entity\Product');
+        $product = $productRepository->findOneBy([
+            "id" => $id,
+        ]);
+        return $product;
+    }
 }
