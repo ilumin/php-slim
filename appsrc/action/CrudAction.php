@@ -56,6 +56,15 @@ class CrudAction
         return $response->withJson($data);
     }
 
+    public function remove(Request $request, Response $response, $args)
+    {
+        $result = $this->productResource->remove($args['id']);
+        $data = [
+            "status" => "success",
+        ];
+        return $response->withJson($data);
+    }
+
     public function hello(Request $request, Response $response, $args)
     {
         $data = [
