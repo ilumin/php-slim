@@ -25,4 +25,19 @@ class ProductResource
         ]);
         return $product;
     }
+    public function create($data)
+    {
+        $this->doctrine->getConnection()->beginTransaction();
+        try {
+            $product = new \App\Entity\Product($data);
+            $this->doctrine->persist($product);
+            $this->doctrine->flush();
+            $this->doctrine->getConnection()->commit();
+            return $product;
+        }
+        catch (\Exception $e) {
+            $this->doctrine->getConnection()->rollBack();
+            throw new \Exception('Insert product fail with (' . $e->getMessage() . ')');
+        }
+    }
 }
