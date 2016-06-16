@@ -14,9 +14,9 @@ class CrudAction
         $this->productResource = $productResource;
     }
 
-    public function get(Request $request, Response $response, $args)
+    public function fetch(Request $request, Response $response, $args)
     {
-        $result = $this->productResource->get();
+        $result = $this->productResource->fetch();
         $data = [
             "status" => "success",
             "data" => $result,

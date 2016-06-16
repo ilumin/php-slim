@@ -11,7 +11,7 @@ class ProductResource
     {
         $this->doctrine = $doctrine;
     }
-    public function get()
+    public function fetch()
     {
         $productRepository = $this->doctrine->getRepository('App\Entity\Product');
         $products = $productRepository->findAll();
