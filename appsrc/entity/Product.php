@@ -36,6 +36,12 @@ class Product
      */
     protected $createdAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
+     * @var Category
+     */
+    protected $category;
+
     public function __construct($data)
     {
         $this->name = $data['name'];
