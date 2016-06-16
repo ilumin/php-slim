@@ -1,3 +1,3 @@
 <?php
 
-$app->get('/', 'SimpleCrudAction:get');
+$app->get('/hello/{name}', 'SimpleCrudAction:hello');
