@@ -44,6 +44,17 @@ class CrudAction
         ];
         return $response->withJson($data);
     }
+    
+    public function put(Request $request, Response $response, $args)
+    {
+        $data = $request->getParsedBody();
+        $result = $this->productResource->update($data);
+        $data = [
+            "status" => "success",
+            "data" => $result,
+        ];
+        return $response->withJson($data);
+    }
 
     public function hello(Request $request, Response $response, $args)
     {
