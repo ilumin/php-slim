@@ -65,4 +65,27 @@ class ProductResource
             throw new \Exception('Update product fail with (' . $e->getMessage() . ')');
         }
     }
+
+    public function remove($id)
+    {
+        $this->doctrine->getConnection()->beginTransaction();
+
+        try {
+            $productRepository = $this->doctrine->getRepository('App\Entity\Product');
+            $product = $productRepository->findOneBy([
+                'id' => $id,
+            ]);
+            if (!$product) {
+                throw new \Exception('Product not exist');
+            }
+            $this->doctrine->remove($product);
+            $this->doctrine->flush();
+            $this->doctrine->getConnection()->commit();
+            return $product;
+        }
+        catch (\Exception $e) {
+            $this->doctrine->getConnection()->rollBack();
+            throw new \Exception('Remove product fail with (' . $e->getMessage() . ')');
+        }
+    }
 }
