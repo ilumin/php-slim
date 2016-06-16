@@ -35,4 +35,11 @@ class Product
      * @var \DateTime
      */
     protected $createdAt;
+
+    public function __construct($data)
+    {
+        $this->name = $data['name'];
+        $this->price = $data['price'];
+        $this->createdAt = isset($data['createdAt']) ? $data['createdAt'] : new \Datetime();
+    }
 }
