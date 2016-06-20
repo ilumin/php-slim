@@ -37,4 +37,10 @@ class Cart
      * @var \DateTime
      */
     protected $createdAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CartItem", mappedBy="cart", fetch="EXTRA_LAZY")
+     * @var CartItem[]
+     */
+    protected $cartItems;
 }
