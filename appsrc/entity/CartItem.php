@@ -33,8 +33,8 @@ class CartItem
     public $price;
 
     /**
-     * @ORM\Column(type="int", name="qty")
-     * @var float
+     * @ORM\Column(type="integer", name="qty")
+     * @var int
      */
     public $qty;
 
@@ -49,4 +49,10 @@ class CartItem
      * @var Cart
      */
     protected $cart;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Product")
+     * @var Product
+     */
+    protected $product;
 }

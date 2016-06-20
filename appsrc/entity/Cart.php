@@ -27,8 +27,8 @@ class Cart
     public $totalPrice;
 
     /**
-     * @ORM\Column(type="int", name="item_count")
-     * @var float
+     * @ORM\Column(type="integer", name="item_count")
+     * @var int
      */
     public $itemCount;
 
