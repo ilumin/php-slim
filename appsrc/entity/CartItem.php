@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="carts")
+ * @ORM\Table(name="cart_items")
  */
-class Cart
+class CartItem
 {
     /**
      * @ORM\Id
@@ -27,10 +27,16 @@ class Cart
     public $totalPrice;
 
     /**
-     * @ORM\Column(type="int", name="item_count")
+     * @ORM\Column(type="float", name="price")
      * @var float
      */
-    public $itemCount;
+    public $price;
+
+    /**
+     * @ORM\Column(type="int", name="qty")
+     * @var float
+     */
+    public $qty;
 
     /**
      * @ORM\Column(type="datetime", name="created_at")
