@@ -62,6 +62,6 @@ class CartItem
         $this->qty = $qty;
         $this->price = $product->price;
         $this->totalPrice = $this->price * $this->qty;
-        $this->createdAt = new Datetime();
+        $this->createdAt = new \Datetime();
     }
 }

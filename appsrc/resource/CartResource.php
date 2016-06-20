@@ -47,15 +47,8 @@ class CartResource
 
             // has this product in cart (YES) --> update qty ==> CartItem
             // has this product in cart (NO) --> insert cart item ==> CartItem
-            $cart->addItem($product, $qty);
-
             // update cart info
-            $cart->totalPrice = 0;
-            $cart->itemCount = 0;
-            foreach ($cart->cartItems as $id => $item) {
-                $cart->totalPrice += $item->totalPrice;
-                $cart->itemCount += $item->qty;
-            }
+            $cart->addItem($product, $qty);
 
             $this->doctrine->persist($cart);
             $this->doctrine->flush();

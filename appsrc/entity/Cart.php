@@ -39,26 +39,35 @@ class Cart
     protected $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="CartItem", mappedBy="cart", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="CartItem", mappedBy="cart", cascade="persist")
      * @var CartItem[]
      */
-    protected $cartItems;
+    protected $cartItems = array();
+
+    public function __construct()
+    {
+        $this->totalPrice = 0;
+        $this->itemCount = 0;
+        $this->createdAt = new \Datetime();
+    }
 
     public function addItem($product, $qty)
     {
         $hasProduct = $this->hasProduct($product);
 
         if ($hasProduct) {
-            $item = $cart->cartItems[$product->id];
+            $item = $this->cartItems[$product->id];
             $item->price = $product->price;
             $item->qty += $qty;
             $item->totalPrice = $item->price * $item->qty;
 
-            $cart->cartItems[$product->id] = $item;
+            $this->cartItems[$product->id] = $item;
         }
         else {
-            $cart->cartItems[$product->id] = new CartItem($product, $qty);
+            $this->cartItems[$product->id] = new CartItem($product, $qty);
         }
+
+        $this->updateInfo();
     }
 
     public function hasProduct($product)
@@ -71,5 +80,15 @@ class Cart
         }
 
         return false;
+    }
+
+    public function updateInfo()
+    {
+        $this->totalPrice = 0;
+        $this->itemCount = 0;
+        foreach ($this->cartItems as $id => $item) {
+            $this->totalPrice += $item->totalPrice;
+            $this->itemCount += $item->qty;
+        }
     }
 }
