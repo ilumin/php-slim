@@ -43,4 +43,33 @@ class Cart
      * @var CartItem[]
      */
     protected $cartItems;
+
+    public function addItem($product, $qty)
+    {
+        $hasProduct = $cart->hasProduct($product);
+
+        if ($hasProduct) {
+            $item = $cart->cartItems[$product->id];
+            $item->price = $product->price;
+            $item->qty += $qty;
+            $item->totalPrice = $item->price * $item->qty;
+
+            $cart->cartItems[$product->id] = $item;
+        }
+        else {
+            $cart->cartItems[$product->id] = new CartItem($product, $qty);
+        }
+    }
+
+    public function hasProduct($product)
+    {
+        $productId = $product->id;
+        foreach ($this->cartItems as $id => $item) {
+            if ($productId == $id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

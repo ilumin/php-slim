@@ -3,6 +3,7 @@
 namespace App\Resource;
 
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Cart;
 
 class CartResource
 {
@@ -27,7 +28,7 @@ class CartResource
 
     public function getCart() {
         $cartRepository = $this->doctrine->getRepository('App\Entity\Cart');
-        $cart = $cartRepository->findOne();
+        $cart = $cartRepository->findOneBy([]);
         if (!$cart) {
             $cart = new Cart();
         }
@@ -46,17 +47,7 @@ class CartResource
 
             // has this product in cart (YES) --> update qty ==> CartItem
             // has this product in cart (NO) --> insert cart item ==> CartItem
-            $hasProduct = $cart->hasProduct($product);
-            if ($hasProduct) {
-                $item = $cart->cartItems[$product->id];
-                $item->price = $product->price;
-                $item->qty += $qty;
-                $item->totalPrice = $item->price * $item->qty;
-                $cart->cartItems[$product->id] = $item;
-            }
-            else {
-                $cart->cartItems[$product->id] = new CartItem($product, $qty);
-            }
+            $cart->addItem($product, $qty);
 
             // update cart info
             $cart->totalPrice = 0;
