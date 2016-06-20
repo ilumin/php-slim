@@ -43,4 +43,10 @@ class CartItem
      * @var \DateTime
      */
     protected $createdAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Cart", inversedBy="cartItems")
+     * @var Cart
+     */
+    protected $cart;
 }
