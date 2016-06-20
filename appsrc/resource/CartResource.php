@@ -53,7 +53,7 @@ class CartResource
             $this->doctrine->persist($cart);
             $this->doctrine->flush();
 
-            return $cart;
+            return $cart->getData();
         }
         catch (\Exception $e) {
             echo "\n File: " . $e->getFile();

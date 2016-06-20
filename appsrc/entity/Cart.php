@@ -42,44 +42,40 @@ class Cart
      * @ORM\OneToMany(targetEntity="CartItem", mappedBy="cart", cascade="persist")
      * @var CartItem[]
      */
-    protected $cartItems = array();
+    protected $cartItems;
 
     public function __construct()
     {
         $this->totalPrice = 0;
         $this->itemCount = 0;
+        $this->cartItems = new ArrayCollection();
         $this->createdAt = new \Datetime();
     }
 
     public function addItem($product, $qty)
     {
-        $hasProduct = $this->hasProduct($product);
+        $cartItem = $this->getItemByProduct($product);
 
-        if ($hasProduct) {
-            $item = $this->cartItems[$product->id];
-            $item->price = $product->price;
-            $item->qty += $qty;
-            $item->totalPrice = $item->price * $item->qty;
-
-            $this->cartItems[$product->id] = $item;
+        if ($cartItem) {
+            $cartItem->price = $product->price;
+            $cartItem->qty += $qty;
+            $cartItem->totalPrice = $cartItem->price * $cartItem->qty;
         }
         else {
-            $this->cartItems[$product->id] = new CartItem($product, $qty);
+            $cartItem = new CartItem($product, $qty, $this);
+            $this->cartItems->add($cartItem);
         }
 
         $this->updateInfo();
     }
 
-    public function hasProduct($product)
+    public function getItemByProduct($product)
     {
-        $productId = $product->id;
-        foreach ($this->cartItems as $id => $item) {
-            if ($productId == $id) {
-                return true;
-            }
-        }
-
-        return false;
+        /** @var ArrayCollection $cartItems */
+        $cartItems = $this->cartItems->filter(function($cartItem) use ($product) {
+            return $cartItem->getProductId() == $product->id;
+        });
+        return $cartItems->first();
     }
 
     public function updateInfo()
@@ -90,5 +86,26 @@ class Cart
             $this->totalPrice += $item->totalPrice;
             $this->itemCount += $item->qty;
         }
+    }
+
+    public function getData()
+    {
+        $result = [];
+        $result['total_price'] = $this->totalPrice;
+        $result['item_count'] = $this->itemCount;
+        $result['items'] = [];
+
+        foreach ($this->cartItems as $id => $item) {
+            $product = $item->getProduct();
+            $result['items'][] = [
+                'id' => $product->id,
+                'name' => $product->name,
+                'price' => $item->price,
+                'total_price' => $item->totalPrice,
+                'qty' => $item->qty,
+            ];
+        }
+
+        return $result;
     }
 }

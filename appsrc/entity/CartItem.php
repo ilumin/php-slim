@@ -56,12 +56,23 @@ class CartItem
      */
     protected $product;
 
-    public function __construct($product, $qty)
+    public function __construct($product, $qty, $cart)
     {
         $this->product = $product;
         $this->qty = $qty;
         $this->price = $product->price;
         $this->totalPrice = $this->price * $this->qty;
+        $this->cart = $cart;
         $this->createdAt = new \Datetime();
+    }
+
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    public function getProductId()
+    {
+        return $this->product->id;
     }
 }
