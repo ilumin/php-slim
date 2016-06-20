@@ -46,7 +46,7 @@ class Cart
 
     public function addItem($product, $qty)
     {
-        $hasProduct = $cart->hasProduct($product);
+        $hasProduct = $this->hasProduct($product);
 
         if ($hasProduct) {
             $item = $cart->cartItems[$product->id];
